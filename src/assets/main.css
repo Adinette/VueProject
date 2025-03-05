@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+
+@theme {
+  --color-primary: #ffffff;
+  --color-outline-primary: #000000;
+  --color-secondary: #30334e;
+  --color-outline-secondary: #f7f7f9;
+  --color-tertiary: #282a42;
+  --color-outline-tertiary: #666cff;
+  --color-badge: #ff4d49;
+  --color-link: #6369f4;
+  --color-dark: #eaeaffe6;
+  --color-light: #262b43e6;
+}
