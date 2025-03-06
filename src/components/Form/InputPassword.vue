@@ -21,8 +21,6 @@ const onInput = (event: Event) => {
   const target = event.target as HTMLInputElement;
   emit("update:modelValue", target.value);
 };
-
-const hasError = computed(() => props.error && props.error.length > 0);
 </script>
 
 <template>
@@ -31,17 +29,22 @@ const hasError = computed(() => props.error && props.error.length > 0);
       <input
         :id="name"
         :name="name"
-        :placeholder="placeholder || label"
+        :placeholder="placeholder"
         :type="isPasswordVisible ? 'text' : 'password'"
         v-model="inputValue"
         @input="onInput"
         :class="[
-          'py-3 pl-3 pr-20 border-1 border-gray-300 hover:border-gray-400 rounded-md w-full focus:outline-outline-tertiary',
+          ' peer py-3 pl-3 pr-20 border-1 border-gray-300 hover:border-gray-400 rounded-md w-full  focus:outline-none focus:ring-2 focus:ring-blue-500',
           ,
-          hasError ? 'border-danger' : '',
           inputClass,
         ]"
       />
+      <label
+        :for="name"
+        class="absolute left-3 top-3 text-gray-500 text-sm peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:-translate-y-1/2 peer-focus:text-sm peer-focus:z-10 peer-focus:text-blue-500 transition-all duration-200 ease-in-out px-1 z-20 bg-white dark:bg-[#30334e]"
+      >
+        {{ label }}
+      </label>
       <button
         @click="isPasswordVisible = !isPasswordVisible"
         type="button"
@@ -50,10 +53,9 @@ const hasError = computed(() => props.error && props.error.length > 0);
         <img
           :src="isPasswordVisible ? '/images/view.png' : '/images/hide.png'"
           alt="eye"
-          class="w-6"
+          class="icon w-6"
         />
       </button>
     </div>
-    <p v-if="error" class="text-red-500 mt-2">{{ error }}</p>
   </div>
 </template>

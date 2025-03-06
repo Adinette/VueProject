@@ -3,102 +3,82 @@ import Form from "../Form/Form.vue";
 import InputText from "../Form/InputText.vue";
 import InputPassword from "../Form/InputPassword.vue";
 import Button from "../Form/Button.vue";
-import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { schema } from "@/schema";
 import AuthContent from "../AuthContent.vue";
+import { useForm } from "vee-validate";
+import { toTypedSchema } from "@vee-validate/zod";
+import { schema } from "@/schema";
 
-const email = ref("");
-const password = ref("");
+const { handleSubmit, defineField, resetForm } = useForm({
+  validationSchema: toTypedSchema(schema),
+});
+
+const [email, emailAttrs] = defineField("email");
+const [password, passwordAttrs] = defineField("password");
+
 const router = useRouter();
 
-const emailError = ref("");
-const passwordError = ref("");
+const submitForm = handleSubmit(async (values) => {
+  try {
+    const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
 
-const resetForm = () => {
-  email.value = "";
-  password.value = "";
-  emailError.value = "";
-  passwordError.value = "";
-};
+    if (
+      storedUser.email === values.email &&
+      storedUser.password === values.password
+    ) {
+      const response = await new Promise<{ token: string }>((resolve) => {
+        setTimeout(() => resolve({ token: "fake-jwt-token" }), 500);
+      });
 
-const validateForm = () => {
-  const result = schema.safeParse({
-    email: email.value,
-    password: password.value,
-  });
-  if (!result.success) {
-    result.error.errors.forEach((error) => {
-      if (error.path[0] === "email") {
-        emailError.value = error.message;
-      }
-      if (error.path[0] === "password") {
-        passwordError.value = error.message;
-      }
-    });
-    return false;
-  }
-  emailError.value = "";
-  passwordError.value = "";
-  return true;
-};
-
-const submitForm = async () => {
-  if (validateForm()) {
-    try {
-      const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
-      console.log(storedUser);
-
-      if (
-        storedUser.email === email.value &&
-        storedUser.password === password.value
-      ) {
-        const response = await new Promise<{ token: string }>((resolve) => {
-          setTimeout(() => resolve({ token: "fake-jwt-token" }), 500);
-        });
-
-        if (response && response.token) {
-          localStorage.setItem("authToken", response.token);
-          router.push("/");
-        } else {
-          console.log("Email ou mot de passe incorrect.");
-        }
+      if (response?.token) {
+        localStorage.setItem("authToken", response.token);
+        router.push("/");
       } else {
         console.log("Email ou mot de passe incorrect.");
       }
-    } catch (error) {
-      console.log("Échec de la connexion.");
+    } else {
+      console.log("Email ou mot de passe incorrect.");
     }
+  } catch (error) {
+    console.log("Échec de la connexion.");
   }
-};
+  resetForm();
+});
 </script>
 
 <template>
-  <div class="">
+  <div>
     <div>
       <h4 class="mb-1 text-2xl font-medium">
         Welcome to <span class="text-capitalize">materialize! 👋🏻</span>
       </h4>
       <p class="mb-0">Please sign-in to your account and start the adventure</p>
     </div>
+
     <Form @submit.prevent="submitForm">
       <InputText
         class="mt-8 mb-4"
         id="email"
         type="email"
         name="email"
-        placeholder="Email"
-        :error="emailError"
+        label="Email"
+        placeholder=""
         v-model="email"
+        v-bind="emailAttrs"
       />
+      <p class="text-red-500 text-sm">{{ emailAttrs.errorMessage }}</p>
+
       <InputPassword
         id="password"
         name="password"
         type="password"
-        placeholder="Password"
-        :error="passwordError"
+        label="Password"
+        placeholder=""
         v-model="password"
+        v-bind="passwordAttrs"
       />
+      <p class="text-red-500 text-sm">{{ passwordAttrs.errorMessage }}</p>
+
       <div class="mt-8">
         <div class="mb-4 text-center flex items-center justify-between">
           <div class="flex items-start">
@@ -117,12 +97,16 @@ const submitForm = async () => {
             Forgot Password?
           </router-link>
         </div>
+
         <Button
           type="submit"
           label="Login"
           class="btn-lg mt-8 w-full rounded-xl text-white bg-outline-tertiary"
         />
-        <AuthContent linkTo="Create an account" descriptionLinkTo="New on our platform?"/>
+        <AuthContent
+          linkTo="Create an account"
+          descriptionLinkTo="New on our platform?"
+        />
       </div>
     </Form>
   </div>

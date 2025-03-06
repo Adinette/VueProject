@@ -35,7 +35,7 @@ const changeTheme = (value: string) => {
              { 'bg-gray-100 dark:bg-[#383c6a]': theme.currentTheme.value === 'light' }]"
       role="menuitem"
     >
-    <img src="/svg/light.svg" alt="light" :class="['w-6 h-6', {'iconTheme' : theme.currentTheme.value === 'light'}]" />
+    <img src="/svg/light.svg" alt="light" :class="['icon w-6 h-6', {'iconTheme' : theme.currentTheme.value === 'light'}]" />
     <span 
             :class="['ml-2 text-base dark:text-outline-secondary', 
              { 'text-link dark:text-link': theme.currentTheme.value === 'light' }]"
@@ -50,7 +50,7 @@ const changeTheme = (value: string) => {
              { 'bg-gray-100 dark:bg-[#383c6a]': theme.currentTheme.value === 'dark' }]"
       role="menuitem"
     >
-      <img src="/svg/dark.svg" alt="dark" :class="['w-6 h-6', {'iconTheme' : theme.currentTheme.value === 'dark'}]" />
+      <img src="/svg/dark.svg" alt="dark" :class="['icon w-6 h-6', {'iconTheme' : theme.currentTheme.value === 'dark'}]" />
       <span :class="['ml-2 text-base', 
              { 'text-link dark:text-link': theme.currentTheme.value === 'dark' }]">Dark</span>
     </button>
