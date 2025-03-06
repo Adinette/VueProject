@@ -17,7 +17,7 @@ defineProps({
       :placeholder="placeholder || ''"
       :value="modelValue"
       @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
-      class="peer py-3 px-3 border border-blue-500 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+      class="peer py-3 px-3 border focus:bg-tertiary border-blue-500 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
     />
     <label
       :for="name"

@@ -59,7 +59,8 @@ const submitForm = handleSubmit(async (values) => {
           id="email"
           type="email"
           name="email"
-          placeholder="Email"
+          label="Email"
+          placeholder=""
           v-model="email"
           v-bind="emailAttrs"
         />
@@ -69,7 +70,8 @@ const submitForm = handleSubmit(async (values) => {
           id="password"
           name="password"
           type="password"
-          placeholder="Password"
+          label="Password"
+          placeholder=""
           v-model="password"
           v-bind="passwordAttrs"
         />

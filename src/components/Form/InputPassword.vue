@@ -59,3 +59,12 @@ const onInput = (event: Event) => {
     </div>
   </div>
 </template>
+
+<style scoped>
+  .icon{
+    filter: brightness(0) saturate(100%) invert(23%) sepia(7%) saturate(2051%)
+    hue-rotate(191deg) brightness(89%) contrast(86%);
+  }
+  [data-theme="dark"] .icon {
+    filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7500%) hue-rotate(163deg) brightness(106%) contrast(90%);}
+</style>
