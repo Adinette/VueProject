@@ -7,7 +7,7 @@ const themeIcons = {
   dark: "dark",
   light: "light",
 };
-const getThemeIcon = (theme: string) => `/svg/${themeIcons[theme]}.svg`;
+const getThemeIcon = (theme: string) => `/svg/${themeIcons[theme as keyof typeof themeIcons]}.svg`;
 
 const themeIcon = ref(getThemeIcon(currentTheme.value));
 
