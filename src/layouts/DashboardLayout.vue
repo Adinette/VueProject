@@ -17,14 +17,14 @@ const auth = useAuth();
       @update:isMenuOpen="isMenuOpen = $event"
     />
     <div
-      class="lg:pr-4 pb-4 transition-all duration-300 h-dvh"
-      :class="isMenuOpen ? 'sm:ml-16' : 'sm:ml-64'"
+      class="lg:pr-4 transition-all duration-300 h-dvh"
+      :class="isMenuOpen ? 'sm:ml-24' : 'sm:ml-64'"
     >
-      <div class="h-full">
+      <div class="h-full relative">
         <NavBar :isAuthenticated="auth.isAuthenticated" />
         <slot />
+        <Footer />
       </div>
-      <Footer />
     </div>
   </div>
 </template>

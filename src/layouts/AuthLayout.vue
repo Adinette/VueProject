@@ -25,7 +25,7 @@ const theme = useTheme();
       >
         <img
           :src="
-            theme.currentTheme === 'light'
+            theme.currentTheme.value === 'light'
               ? '/images/auth-light.png'
               : '/images/auth-dark.png'
           "

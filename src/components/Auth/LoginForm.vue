@@ -6,6 +6,7 @@ import Button from "../Form/Button.vue";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { schema } from "@/schema";
+import AuthContent from "../AuthContent.vue";
 
 const email = ref("");
 const password = ref("");
@@ -68,7 +69,6 @@ const submitForm = async () => {
     } catch (error) {
       console.log("Échec de la connexion.");
     }
-    // resetForm();
   }
 };
 </script>
@@ -122,36 +122,7 @@ const submitForm = async () => {
           label="Login"
           class="btn-lg mt-8 w-full rounded-xl text-white bg-outline-tertiary"
         />
-        <div class="my-5 flex items-center justify-center">
-          <p class="text-lg font-medium">New on our platform?</p>
-          <router-link
-            to="/register"
-            class="ml-2 text-lg font-medium text-outline-tertiary"
-          >
-            Create an account
-          </router-link>
-        </div>
-        <div>
-          <div class="flex items-center">
-            <hr class="h-2 w-44" />
-            <span class="mb-3 mx-2.5">or</span>
-            <hr class="h-2 w-44" />
-          </div>
-          <div class="flex items-center justify-center">
-            <router-link to="/">
-              <img src="/svg/twitter.svg" alt="" class="w-5 h-5 me-1.5" />
-            </router-link>
-            <router-link to="/">
-              <img src="/svg/twitter.svg" alt="" class="w-5 h-5 me-1.5" />
-            </router-link>
-            <router-link to="/">
-              <img src="/svg/twitter.svg" alt="" class="w-5 h-5 me-1.5" />
-            </router-link>
-            <router-link to="/">
-              <img src="/svg/twitter.svg" alt="" class="w-5 h-5 me-1.5" />
-            </router-link>
-          </div>
-        </div>
+        <AuthContent linkTo="Create an account" descriptionLinkTo="New on our platform?"/>
       </div>
     </Form>
   </div>

@@ -1,7 +1,5 @@
-import { ref, computed, watch } from "vue";
+import { computed, watch } from "vue";
 import { useRouter } from "vue-router";
-
-const isAuthenticated = ref(false);
 
 export const useAuth = () => {
   const router = useRouter();

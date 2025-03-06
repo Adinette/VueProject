@@ -8,6 +8,12 @@ const emit = defineEmits(["update:isMenuOpen"]);
 
 const isOpenMenu = ref(props.isMenuOpen);
 
+// Déclaration du tableau de liens
+const links = [
+  { to: "/", icon: "/svg/home.svg", label: "Home" },
+  { to: "/second_page", icon: "/svg/file.svg", label: "Second Page" },
+];
+
 const toggleIcon = computed(() =>
   isOpenMenu.value ? "/svg/right.svg" : "/svg/left.svg"
 );
@@ -17,7 +23,6 @@ const toggleMenu = () => {
   emit("update:isMenuOpen", isOpenMenu.value);
 };
 
-// Watch for changes in props.isMenuOpen to update isOpenMenu
 watch(
   () => props.isMenuOpen,
   (newVal) => {
@@ -48,37 +53,56 @@ watch(
           >
         </router-link>
         <button @click="toggleMenu">
-          <img :src="toggleIcon" alt="toggleIcon" class="w-8 h-8" />
+          <img :src="toggleIcon" alt="toggleIcon" class="icon w-8 h-8" />
         </button>
       </div>
       <ul class="px-3 font-medium">
-        <li>
+        <li v-for="(link, index) in links" :key="index" class="mb-2">
+          <router-link
+            type="button"
+            :to="link.to"
+            :class="[!isMenuOpen, 'justify-center']"
+            class="flex justify-start items-center px-3 py-2 mb-1 rounded-lg hover:bg-gray-200 hover:dark:bg-secondary group"
+            active-class="bg-outline-tertiary hover:bg-outline-tertiary text-white"
+          >
+            <img :src="link.icon" class="icon h-6" :alt="link.label" />
+            <span v-if="!isOpenMenu" class="flex-1 ms-3 text-base whitespace-nowrap">
+              {{ link.label }}
+            </span>
+          </router-link>
+        </li>
+        <!-- <li class="mb-2">
           <router-link
             type="button"
             to="/"
-            class="flex items-center px-3 py-2 mb-1 rounded-lg hover:bg-gray-200 group"
-            active-class="bg-outline-tertiary text-white"
+            :class="[!isMenuOpen, 'justify-center']"
+            class="flex justify-start items-center px-3 py-2 mb-1 rounded-lg hover:bg-gray-200 hover:dark:bg-secondary group"
+            active-class="bg-outline-tertiary hover:bg-outline-tertiary text-white"
           >
-            <img src="/svg/home.svg" class="h-8" alt="materialize Logo" />
-            <span v-if="!isOpenMenu" class="ms-3 text-xl">Home</span>
+            <img src="/svg/home.svg" class="icon h-6" alt="home" />
+            <span v-if="!isOpenMenu" class="flex-1 ms-3 text-base whitespace-nowrap">Home</span>
           </router-link>
         </li>
         <li>
           <router-link
             type="button"
+            :class="[!isMenuOpen, 'justify-center']"
             to="/second_page"
-            class="flex items-center px-3 py-2 mb-1 rounded-lg hover:bg-gray-200 group"
-            active-class="bg-outline-tertiary text-white"
+            class="flex justify-start items-center px-3 py-2 mb-1 rounded-lg hover:bg-gray-200 hover:dark:bg-secondary group"
+            active-class="bg-outline-tertiary hover:bg-outline-tertiary text-white"
           >
-            <img src="/svg/file.svg" class="h-8" alt="materialize Logo" />
+            <img src="/svg/file.svg" class="icon h-6" alt="file" />
             <span
               v-if="!isOpenMenu"
-              class="flex-1 ms-3 text-xl whitespace-nowrap"
+              class="flex-1 ms-3 text-base whitespace-nowrap"
               >Second page</span
             >
           </router-link>
-        </li>
+        </li> -->
       </ul>
     </div>
   </aside>
 </template>
+
+<style scoped>
+</style>

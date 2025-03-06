@@ -12,33 +12,33 @@ const isProfileMenuOpen = ref(false);
 const isThemeMenuOpen = ref(false);
 const isMenuOpen = ref(false);
 const isScrolled = ref(false);
-const theme = useTheme();
+const { currentTheme, themeIcon, setTheme } = useTheme();
 
 const toggleProfileMenu = () => {
   isProfileMenuOpen.value = !isProfileMenuOpen.value;
 };
+
 const toggleThemeMenu = () => {
   isThemeMenuOpen.value = !isThemeMenuOpen.value;
+  setTheme(currentTheme.value);
 };
+
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value;
 };
-const handleScroll = () => {
-  isScrolled.value = window.scrollY > 0;
-};
 
-const changeTheme = (value: string) => {
-  theme.setTheme(value);
-};
+const links = [
+  { to: "/", icon: "/svg/home.svg", label: "Home" },
+  { to: "/second_page", icon: "/svg/file.svg", label: "Second Page" },
+];
 
 onMounted(() => {
   window.addEventListener("scroll", handleScroll);
-  const savedTheme = localStorage.getItem("theme");
-  if (savedTheme) {
-    changeTheme(savedTheme);
-  }
 });
 
+const handleScroll = () => {
+  isScrolled.value = window.scrollY > 0;
+};
 onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);
 });
@@ -87,34 +87,23 @@ onUnmounted(() => {
               >
             </router-link>
             <button @click="toggleMenu">
-              <img src="/svg/close.svg" alt="close" class="w-8 h-8" />
+              <img src="/svg/close.svg" alt="close" class="icon w-8 h-8" />
             </button>
           </div>
           <ul class="px-3 font-medium">
-            <li>
+            <li v-for="(link, index) in links" :key="index" class="mb-2">
               <router-link
                 type="button"
                 @click="toggleMenu"
-                to="/"
-                class="flex items-center px-3 py-2 mb-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 group"
-                active-class="bg-gray-100 dark:bg-tertiary  "
+                :to="link.to"
+                :class="[!isMenuOpen, 'justify-center']"
+                class="flex items-center px-3 py-2 mb-1 rounded-lg hover:bg-gray-200 hover:dark:bg-secondary group"
+                active-class="bg-outline-tertiary hover:bg-outline-tertiary text-white"
               >
-                <img src="/svg/home.svg" class="h-8" alt="materialize Logo" />
-                <span class="ms-3 text-xl">Home</span>
-              </router-link>
-            </li>
-            <li>
-              <router-link
-                type="button"
-                @click="toggleMenu"
-                to="/second_page"
-                class="flex items-center px-3 py-2 mb-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 group"
-                active-class="bg-gray-100 dark:bg-tertiary "
-              >
-                <img src="/svg/file.svg" class="h-8" alt="materialize Logo" />
-                <span class="flex-1 ms-3 text-xl whitespace-nowrap"
-                  >Second page</span
-                >
+                <img :src="link.icon" class="icon h-6" :alt="link.label" />
+                <span class="flex-1 ms-3 text-base whitespace-nowrap">
+                  {{ link.label }}
+                </span>
               </router-link>
             </li>
           </ul>
@@ -125,6 +114,7 @@ onUnmounted(() => {
         class="fixed inset-0 bg-black opacity-50 z-30"
         @click="toggleMenu"
       ></div>
+
       <!-- Conteneur des boutons Profil & Thème -->
       <div
         v-if="props.isAuthenticated"
@@ -134,34 +124,29 @@ onUnmounted(() => {
         <div class="relative">
           <button
             @click="toggleThemeMenu"
-            class="p-2 bg-transparent dark:bg-tertiary rounded-full hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+            class="p-2 bg-transparent dark:bg-tertiary rounded-full hover:bg-gray-100 dark:hover:bg-[#383c6a]"
           >
-            <img
-              class="w-8 h-8"
-              :src="
-                theme.currentTheme === 'light'
-                  ? '/svg/light.svg'
-                  : '/svg/dark.svg'
-              "
-              alt="theme"
-            />
+            <img class="icon w-5 h-5" :src="themeIcon" alt="theme-icon" />
           </button>
-          <Theme v-if="isThemeMenuOpen" class="absolute left-0 mt-2" />
+          <Theme
+            v-if="isThemeMenuOpen"
+            class="absolute left-0 mt-2"
+            @closeMenu="isThemeMenuOpen = false"
+          />
         </div>
-
-        <!-- Profil -->
+        <!-- Profile -->
         <div class="relative">
           <button
             @click="toggleProfileMenu"
-            class="p-2 bg-transparent dark:bg-tertiary hover:bg-gray-200 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+            class="p-2 bg-transparent dark:bg-tertiary rounded-full hover:bg-gray-100 dark:hover:bg-[#383c6a]"
           >
             <img
-              class="w-8 h-8 rounded-full relative"
+              class="w-9 h-9 rounded-full relative"
               src="/images/avatar-1.png"
               alt="user photo"
             />
             <span
-              class="bottom-1 left-8 absolute w-3.5 h-3.5 bg-green-700 border-2 border-white dark:border-[#30334e] rounded-full"
+              class="bottom-1 left-8 absolute w-2.5 h-2.5 bg-green-400 border-2 border-white dark:border-[#30334e] rounded-full"
             ></span>
           </button>
           <Profile v-if="isProfileMenuOpen" class="absolute right-0 mt-2" />

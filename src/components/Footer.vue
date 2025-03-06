@@ -1,8 +1,8 @@
 <script setup lang="ts"></script>
 
 <template>
-  <footer class="sticky bottom-0 mt-auto bg-transparent w-full">
-    <div class="mx-auto p-4 md:py-8">
+  <footer class="absolute bottom-0 mt-auto bg-transparent w-full">
+    <div class="mx-auto p-4 md:pt-8 md:pb-4">
       <div class="flex items-center justify-between">
         <span
           class="flex items-center sm:text-center text-base"

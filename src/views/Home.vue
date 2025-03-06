@@ -5,7 +5,7 @@ import DashboardLayout from "@/layouts/DashboardLayout.vue";
 
 <template>
   <DashboardLayout>
-    <div class="pt-6">
+    <div class=" pt-6">
       <div class="mb-6">
         <Card
           title="Kick start your project 🚀"
